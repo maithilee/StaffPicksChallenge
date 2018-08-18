@@ -1,9 +1,9 @@
 # StaffPicksChallenge
 1.  Clone this repository.
-2.  To train the model, run
+2.  To train the model, run command, 
       python buildModel.py
  
-    To test the model, run
+    To test the model, run command, 
       python test2.py <clip_id>
 3. To run the Django web server, from your current working directory where this repo has been cloned, run the following command,
 
