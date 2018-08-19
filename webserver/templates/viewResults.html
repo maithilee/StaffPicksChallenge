@@ -4,7 +4,47 @@
     <meta charset="UTF-8">
     <title>View Results</title>
 </head>
+<!--<meta charset="UTF-8">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">-->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<style>
+.spacing-table {
+  font-family: 'Georgia', 'Arial', sans-serif;
+  font-size: 15px;
+  table-layout: fixed;
+  border-spacing: 0 5px; /* this is the ultimate fix */
+}
+.spacing-table th, td {
+  border-width: 1px 1px;
+  width: 100%;
+  border-color: black;
+  border-style: solid;
+  color: black;
+  padding: 5px 15px;
+  border-collapse: collapse;
+}
+
+</style>
+
 <body>
-<pre> The 10 most similar video clips are : {{ result }} </pre>
+<table border="1">
+    <tr>
+        <td> <b> Clip ID </b> </td>
+        <td> <b> Clip Title </b> </td>
+        <td> <b>Clip Description (Captions) </b></td>
+        <td> <b> Clip Categories </b></td>
+        <td> <b> Clip Image </b></td>
+    </tr>
+    {% for res in result %}
+    <tr>
+        {% for key, val in res.items %}
+        <td> {{ val }} </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
 </body>
 </html>
