@@ -13,6 +13,8 @@ def makeBelongsTo():
     with open(PROJECT_DIR + '\similar-staff-picks-challenge-clip-categories.csv',newline='') as csvfile1:
         reader = csv.reader(csvfile1)
         for i, row in enumerate(reader):
+            if (i == 0):
+                pass
             if isinstance(row[1], str):
                 strCats = row[1].split(", ")
                 intCats = [int(c) for c in strCats]
@@ -29,6 +31,8 @@ def makeCategoryNamesDict():
     with open(PROJECT_DIR + '\similar-staff-picks-challenge-categories.csv', newline='') as categoriesFile:
         reader = csv.reader(categoriesFile)
         for i, row in enumerate(reader):
+            if (i == 0):
+                pass
             categories[row[0]] = row[2]
     return categories
 
@@ -45,7 +49,9 @@ def makeTitlCapImg():
     image = defaultdict(str)
     with open(PROJECT_DIR + '\similar-staff-picks-challenge-clips.csv', newline='', encoding="utf8") as csvfile3:
         reader = csv.reader(csvfile3)
-        for row in reader:
+        for i, row in enumerate(reader):
+            if (i == 0):
+                pass
             titles[row[1]] = row[2]
             captns[row[1]] = row[3]
             image[row[1]] = row[11]
@@ -56,7 +62,9 @@ def getMaxPossibleCategories():
     labelled = []
     with open(PROJECT_DIR + '\similar-staff-picks-challenge-clips.csv', newline='', encoding="utf8") as csvfile2:
         reader = csv.reader(csvfile2)
-        for row in reader:
+        for i, row in enumerate(reader):
+            if (i == 0):
+                pass
             if belongsTo.get(row[1]):
                 categoryNames = getCategoryNames(belongsTo[row[1]])
             else:
