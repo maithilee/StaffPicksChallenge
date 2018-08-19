@@ -31,18 +31,22 @@ inputClip = sys.argv[1]
 #             # jresults = json.dumps(results)
 
 results = []
-similar_doc = model.docvecs.most_similar(positive=[inputClip], topn=10)
-print ("10 most similar video clips for clip %s are: " %inputClip)
-for simDoc in similar_doc:
-    clipId = simDoc[0]
-    doc = collections.OrderedDict()
-    doc['id'] = clipId
-    catNames = [categories[str(catid)] for catid in belongsTo[clipId]]
-    doc['title'] = titles[clipId]
-    doc['captions'] = captns[clipId].replace('\r\n', ' ')
-    doc['categories'] = catNames
-    doc['image'] = image[clipId]
-    results.append(doc)
+try:
+    similar_doc = model.docvecs.most_similar(positive=[inputClip], topn=10)
+    print ("10 most similar video clips for clip %s are: " %inputClip)
+    for simDoc in similar_doc:
+        clipId = simDoc[0]
+        doc = collections.OrderedDict()
+        doc['id'] = clipId
+        catNames = [categories[str(catid)] for catid in belongsTo[clipId]]
+        doc['title'] = titles[clipId]
+        doc['captions'] = captns[clipId].replace('\r\n', ' ')
+        doc['categories'] = catNames
+        doc['image'] = image[clipId]
+        results.append(doc)
 
-jresults = json.dumps(results)
-pprint.pprint(jresults)
+    jresults = json.dumps(results)
+    pprint.pprint(jresults)
+except:
+    print ("Clip ID not found in database")
+    
