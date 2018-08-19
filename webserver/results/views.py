@@ -31,8 +31,9 @@ def compute(request):
             doc['categories'] = catNames
             doc['image'] = image[clipId]
             results.append(doc)
-            jresults = json.dumps(results, indent=4)
-        return render_to_response('viewResults.html', {'result' : jresults})
-    except:
+#             jresults = json.dumps(results, indent=4)
+        return render_to_response('viewResults.html', {'result' : results})
+
+    except Exception as html:
         html = "<html> <body>Clip ID not found in database </body></html>"
         return HttpResponse(html)
