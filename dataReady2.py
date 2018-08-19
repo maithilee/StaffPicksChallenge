@@ -15,12 +15,13 @@ def makeBelongsTo():
         for i, row in enumerate(reader):
             if (i == 0):
                 pass
-            if isinstance(row[1], str):
-                strCats = row[1].split(", ")
-                intCats = [int(c) for c in strCats]
-                belongsTo[row[0]] = intCats
             else:
-                belongsTo[row[0]] = [row[1]]
+                if isinstance(row[1], str):
+                    strCats = row[1].split(", ")
+                    intCats = [int(c) for c in strCats]
+                    belongsTo[row[0]] = intCats
+                else:
+                    belongsTo[row[0]] = [row[1]]
 
     return belongsTo
 
@@ -33,7 +34,8 @@ def makeCategoryNamesDict():
         for i, row in enumerate(reader):
             if (i == 0):
                 pass
-            categories[row[0]] = row[2]
+            else:
+                categories[row[0]] = row[2]
     return categories
 
 # Make a dictionary to get the category names for each category id
@@ -52,9 +54,10 @@ def makeTitlCapImg():
         for i, row in enumerate(reader):
             if (i == 0):
                 pass
-            titles[row[1]] = row[2]
-            captns[row[1]] = row[3]
-            image[row[1]] = row[11]
+            else:
+                titles[row[1]] = row[2]
+                captns[row[1]] = row[3]
+                image[row[1]] = row[11]
     return titles, captns, image
 
 # Get the categories of maximum possible clip_ids
@@ -65,34 +68,35 @@ def getMaxPossibleCategories():
         for i, row in enumerate(reader):
             if (i == 0):
                 pass
-            if belongsTo.get(row[1]):
-                categoryNames = getCategoryNames(belongsTo[row[1]])
             else:
-                categoryNames = []
+                if belongsTo.get(row[1]):
+                    categoryNames = getCategoryNames(belongsTo[row[1]])
+                else:
+                    categoryNames = []
 
-            title = row[2]
-            captions = row[3].replace('\r\n', ' ')
+                title = row[2]
+                captions = row[3].replace('\r\n', ' ')
 
-            # Append all the words from the title, captegory names and captions for vectorization
-            toVectorize = []
-            if len(categoryNames) > 0:
-                toVectorize.extend(categoryNames)
-            toVectorize.append(title)
-            toVectorize.append(captions)
+                # Append all the words from the title, captegory names and captions for vectorization
+                toVectorize = []
+                if len(categoryNames) > 0:
+                    toVectorize.extend(categoryNames)
+                toVectorize.append(title)
+                toVectorize.append(captions)
 
-            toVectorize = ' '.join(toVectorize)
+                toVectorize = ' '.join(toVectorize)
 
-            # Get the stop words
-            stop_words = set(stopwords.words('english'))
+                # Get the stop words
+                stop_words = set(stopwords.words('english'))
 
-            # Tokenize words
-            word_tokens = word_tokenize(toVectorize)
+                # Tokenize words
+                word_tokens = word_tokenize(toVectorize)
 
-            # Get all the words to lower case, remove stop words and punctuations
-            filtered_sentence = [w.lower() for w in word_tokens if not w in stop_words and w.isalpha()]
+                # Get all the words to lower case, remove stop words and punctuations
+                filtered_sentence = [w.lower() for w in word_tokens if not w in stop_words and w.isalpha()]
 
-            # Tag each sentence with this clipId
-            labelled.append(TaggedDocument(filtered_sentence, [row[1]]))
+                # Tag each sentence with this clipId
+                labelled.append(TaggedDocument(filtered_sentence, [row[1]]))
     return labelled
 
 belongsTo = makeBelongsTo()
